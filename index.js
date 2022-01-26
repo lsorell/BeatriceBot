@@ -39,15 +39,22 @@ client.login(token);
 
 // Adds default permissions to commands
 async function setupPerms() {
-    // open: 930520235679834112
+    const adminRole = [{
+        id: adminId,
+        type: 'ROLE',
+        permission: true,
+    }];
+
     const fullPermissions = [
         {
+            // open
             id: '930520235679834112',
-            permissions: [{
-                id: adminId,
-                type: 'ROLE',
-                permission: true,
-            }],
+            permissions: adminRole,
+        },
+        {
+            // close
+            id: '935969576951365712',
+            permissions: adminRole,
         },
     ];
 
