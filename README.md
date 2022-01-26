@@ -43,6 +43,4 @@ Shows the player's current points.
 #
 ### Leaderboard
 Shows the current standings.
-#
-### Commands
-Shows the bot's commands.
+
