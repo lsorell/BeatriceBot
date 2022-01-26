@@ -12,12 +12,10 @@ module.exports = {
         .addStringOption(option =>
             option.setName('option2')
                 .setDescription('The second betting option.')
-                .setRequired(true)),
+                .setRequired(true))
+        .setDefaultPermission(false),
 
     async execute(interaction) {
-        console.log(data.bettingIsOpen);
-        console.log(data.option1);
-        console.log(data.option2);
         if (data.bettingIsOpen) {
             return interaction.reply('Bet is already open. Close the bet before opening a new one!');
         }
@@ -28,9 +26,6 @@ module.exports = {
             data.option1 = opt1;
             data.option2 = opt2;
             data.bettingIsOpen = true;
-            console.log(data.bettingIsOpen);
-            console.log(data.option1);
-            console.log(data.option2);
             return interaction.reply(`Betting is open! Option #1: ${opt1} -- Option #2: ${opt2}`);
         }
         return interaction.reply('One of the options you entered is not valid. Try again!');

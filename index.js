@@ -1,9 +1,10 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
+const { adminId, guildId, token } = require('./config.json');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// Add slash commands
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -15,6 +16,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
     console.log('Ready!');
     client.user.setActivity('#RotMWin');
+    setupPerms();
 });
 
 client.on('interactionCreate', async interaction => {
@@ -34,3 +36,20 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(token);
+
+// Adds default permissions to commands
+async function setupPerms() {
+    // open: 930520235679834112
+    const fullPermissions = [
+        {
+            id: '930520235679834112',
+            permissions: [{
+                id: adminId,
+                type: 'ROLE',
+                permission: true,
+            }],
+        },
+    ];
+
+    await client.guilds.cache.get(guildId)?.commands.permissions.set({ fullPermissions });
+}
