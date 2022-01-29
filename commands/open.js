@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { data } = require('../globals');
+const { PredictionData } = require('../globals');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,16 +17,16 @@ module.exports = {
 
     async execute(interaction) {
         // console.log(interaction.commandId);
-        if (data.bettingIsOpen) {
+        if (PredictionData.bettingIsOpen) {
             return interaction.reply('Bet is already open. Close the bet before opening a new one!');
         }
 
         const opt1 = interaction.options.getString('option1');
         const opt2 = interaction.options.getString('option2');
         if (opt1 && opt2) {
-            data.option1 = opt1;
-            data.option2 = opt2;
-            data.bettingIsOpen = true;
+            PredictionData.option1 = opt1;
+            PredictionData.option2 = opt2;
+            PredictionData.bettingIsOpen = true;
             return interaction.reply(`Betting is open! Option #1: ${opt1} -- Option #2: ${opt2}`);
         }
         return interaction.reply('One of the options you entered is not valid. Try again!');

@@ -1,18 +1,15 @@
 class PredictionData {
-    constructor() {
-        this.bettingIsOpen = false;
-        this.option1 = '';
-        this.option2 = '';
-        this.startingPoints = 1000;
-    }
+    static bettingIsOpen = false;
+    static option1 = '';
+    static option2 = '';
+    static startingPoints = 1000;
 }
 
 const customIds = {
     RESET: 'reset',
-};
+}
 
-const data = new PredictionData();
 module.exports = {
-    data: data,
+    PredictionData,
     customIds: customIds,
 };

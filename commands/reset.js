@@ -29,7 +29,7 @@ module.exports = {
     async reset(interaction) {
         await deleteAllPoints()
             .then(() => {
-                return interaction.reply({ content:'Game was reset succesfully!', ephemeral: true });
+                return interaction.reply({ content:'The game was reset succesfully!', ephemeral: true });
             })
             .catch((e) => {
                 return interaction.reply(e.message);
