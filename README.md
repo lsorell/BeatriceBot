@@ -36,7 +36,7 @@ Bets a point amount on the specified option.
 | Amount | Amount of points bet.                  |
 #
 ### Options
-Shows the betting options with info like return amounts and return ratio.
+Shows the betting options with info like total points bet and return ratio.
 #
 ### Bank
 Shows the player's current points.
