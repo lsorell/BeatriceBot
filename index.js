@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { adminId, guildId, token } = require('./config.json');
+const { customIds } = require('./globals');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -19,6 +20,7 @@ client.once('ready', () => {
     setupPerms();
 });
 
+// Event listener for slash command interaction
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
@@ -32,6 +34,19 @@ client.on('interactionCreate', async interaction => {
     catch (error) {
         console.error(error);
         return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+    }
+});
+
+// Event listener for button interaction
+client.on('interactionCreate', interaction => {
+    if (!interaction.isButton()) return;
+
+    let command;
+    switch (interaction.customId) {
+    case customIds.RESET:
+        command = client.commands.get('reset');
+        command.reset(interaction);
+        break;
     }
 });
 
@@ -54,6 +69,11 @@ async function setupPerms() {
         {
             // close
             id: '935969576951365712',
+            permissions: adminRole,
+        },
+        {
+            // reset
+            id: '936095522543005748',
             permissions: adminRole,
         },
     ];

@@ -16,6 +16,7 @@ module.exports = {
         .setDefaultPermission(false),
 
     async execute(interaction) {
+        // console.log(interaction.commandId);
         if (data.bettingIsOpen) {
             return interaction.reply('Bet is already open. Close the bet before opening a new one!');
         }
