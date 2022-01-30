@@ -29,6 +29,6 @@ module.exports = {
             PredictionData.bettingIsOpen = true;
             return interaction.reply(`Betting is open! Option #1: ${opt1} -- Option #2: ${opt2}`);
         }
-        return interaction.reply('One of the options you entered is not valid. Try again!');
+        return interaction.reply({ content: 'One of the options you entered is not valid. Try again!', ephemeral: true });
     },
 };

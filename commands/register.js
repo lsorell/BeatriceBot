@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { addStartingPoints } = require('../mongo');
+const { addStartingPoints, getPlayerPoints } = require('../mongo');
 const { PredictionData } = require('../globals');
 
 module.exports = {
@@ -8,7 +8,14 @@ module.exports = {
         .setDescription('Adds you to the game.'),
 
     async execute(interaction) {
-        await addStartingPoints({ _id: interaction.user.id, name: interaction.user.username, points: PredictionData.startingPoints })
+        const id = interaction.user.id;
+        const points = await getPlayerPoints(id);
+        console.log(points);
+        if (points) {
+            return interaction.reply({ content:'You have already registered and are in the game.', ephemeral: true });
+        }
+
+        await addStartingPoints({ _id: id, name: interaction.user.username, points: PredictionData.startingPoints })
             .then(() => {
                 return interaction.reply(`${interaction.user.username} has been added to the game with ${PredictionData.startingPoints} starting points!`);
             })

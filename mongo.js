@@ -10,10 +10,6 @@ module.exports = {
         }
         catch (e) {
             console.error(e);
-            if (e.message.includes('duplicate key error')) {
-                // eslint-disable-next-line quotes
-                throw Error("You're already added to the game!");
-            }
             throw Error('Something went wrong adding you to the database.');
         }
         finally {
@@ -30,6 +26,22 @@ module.exports = {
         catch (e) {
             console.error(e);
             throw Error('Something went wrong while deleting data in the database.');
+        }
+        finally {
+            await client.close();
+        }
+    },
+
+    async getPlayerPoints(id) {
+        const client = new MongoClient(url);
+        try {
+            await client.connect();
+            const player = await client.db('predictions').collection('points').findOne({ _id: id });
+            return player ? player.points : player;
+        }
+        catch (e) {
+            console.error(e);
+            throw Error('Something went wrong while checking the database.');
         }
         finally {
             await client.close();

@@ -20,7 +20,7 @@ module.exports = {
             );
 
         return interaction.reply({
-            content: 'Are you sure you want to reset the game? This action cannot be undone.',
+            content: 'Are you sure you want to reset the game? **This action cannot be undone.**',
             ephemeral: true,
             components: [row],
         });

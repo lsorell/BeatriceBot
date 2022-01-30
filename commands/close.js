@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { data } = require('../globals');
+const { PredictionData } = require('../globals');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,11 +9,11 @@ module.exports = {
 
     async execute(interaction) {
         // console.log(interaction.commandId);
-        if (!data.bettingIsOpen) {
+        if (!PredictionData.bettingIsOpen) {
             return interaction.reply('No bet is currently open. Start a bet with /open');
         }
 
-        data.bettingIsOpen = false;
+        PredictionData.bettingIsOpen = false;
         return interaction.reply('The betting period has now ended!');
     },
 };
