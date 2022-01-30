@@ -1,5 +1,6 @@
 class PredictionData {
     static bettingIsOpen = false;
+    static bets = {};
     static option1 = '';
     static option2 = '';
     static startingPoints = 1000;
