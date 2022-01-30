@@ -3,17 +3,18 @@ const { PredictionData } = require('../globals');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('close')
-        .setDescription('Admin command - Ends the betting period.')
+        .setName('cancel')
+        .setDescription('Admin command - Cancels the current bet and returns points to players.')
         .setDefaultPermission(false),
 
     async execute(interaction) {
-        // console.log(interaction.commandId);
+        console.log(interaction.commandId);
         if (!PredictionData.bettingIsOpen) {
             return interaction.reply({ content: 'No bet is currently open. Start a bet with /open', ephemeral: true });
         }
 
         PredictionData.bettingIsOpen = false;
-        return interaction.reply('The betting period has now ended!');
+        PredictionData.bets = {};
+        return interaction.reply('The current bet has been canceled and points have been returned to players!');
     },
 };

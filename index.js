@@ -76,6 +76,11 @@ async function setupPerms() {
             id: '936095522543005748',
             permissions: adminRole,
         },
+        {
+            // cancel
+            id: '937433766325002320',
+            permissions: adminRole,
+        },
     ];
 
     await client.guilds.cache.get(guildId)?.commands.permissions.set({ fullPermissions });
