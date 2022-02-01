@@ -8,7 +8,7 @@ module.exports = {
         .setDefaultPermission(false),
 
     async execute(interaction) {
-        console.log(interaction.commandId);
+        // console.log(interaction.commandId);
         if (!PredictionData.bettingIsOpen) {
             return interaction.reply({ content: 'No bet is currently open. Start a bet with /open', ephemeral: true });
         }

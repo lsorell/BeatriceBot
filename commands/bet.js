@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { PredictionData } = require('../globals');
 const { getPlayerPoints } = require('../mongo');
+const { calculateBettingInfo, createBettingInfoEmbed } = require('./options');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -48,13 +49,13 @@ module.exports = {
             }
         }
         else if (hasAvailableFunds(points, amount)) {
-            PredictionData.bets[id] = { id, selection, amount };
+            PredictionData.bets[id] = { selection, amount };
         }
         else {
             return interaction.reply({ content: 'You do not have enough funds to place this bet.', ephemeral: true });
         }
-        return interaction.reply(`${interaction.user.username} has bid on ${selection === '1' ? PredictionData.option1 : PredictionData.option2} for a total of ${amount} points.`);
-        // TODO: Show updated options
+        interaction.reply(`${interaction.user.username} has bid on ${selection === '1' ? PredictionData.option1 : PredictionData.option2} for a total of ${amount} points.`);
+        return interaction.channel.send({ embeds: [createBettingInfoEmbed(calculateBettingInfo())] });
     },
 };
 
