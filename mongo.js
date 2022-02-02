@@ -47,4 +47,20 @@ module.exports = {
             await client.close();
         }
     },
+
+    async getPointLeaders() {
+        const client = new MongoClient(url);
+        try {
+            await client.connect();
+            const leaders = await client.db('predictions').collection('points').find().sort({ points: -1 }).toArray();
+            return leaders;
+        }
+        catch (e) {
+            console.error(e);
+            throw Error('Something went wrong while checking the database.');
+        }
+        finally {
+            await client.close();
+        }
+    },
 };

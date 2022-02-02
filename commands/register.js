@@ -10,7 +10,6 @@ module.exports = {
     async execute(interaction) {
         const id = interaction.user.id;
         const points = await getPlayerPoints(id);
-        console.log(points);
         if (points) {
             return interaction.reply({ content:'You have already registered and are in the game.', ephemeral: true });
         }

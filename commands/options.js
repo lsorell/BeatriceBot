@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const { PredictionData } = require('../globals');
+const { PredictionData, embedColor } = require('../globals');
 
 class OptionInfo {
     points = 0;
@@ -48,7 +48,7 @@ module.exports = {
         const { option1Info, option2Info } = info;
         return new MessageEmbed()
             .setTitle('Betting Options')
-            .setColor(PredictionData.color)
+            .setColor(embedColor)
             .addFields(
                 { name: 'Option #1', value: PredictionData.option1, inline: true },
                 { name: 'Option #2', value: PredictionData.option2, inline: true },
