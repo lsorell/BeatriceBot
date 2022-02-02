@@ -12,11 +12,11 @@ Opens a prediction for betting.
 ### Close
 Ends the betting period.
 #
-### Result <WinningOption\>
+### Result <Option\>
 Pays out the correct predictors and shows the leaderboard.
-| Param         | Description                           |
-| ------------- | ------------------------------------- |
-| WinningOption | Name or number of the winning option. |
+| Param  | Description         |
+| ------ | ------------------- |
+| Option | The winning option. |
 #
 ### Cancel
 Deletes the current bet and returns points to players.
@@ -30,10 +30,10 @@ Adds the player to the game and gives them the starting point amount.
 #
 ### Bet <Option> <Amount>
 Bets a point amount on the specified option.
-| Param  | Description                            |
-| ------ | -------------------------------------- |
-| Option | Name or number of the selected option. |
-| Amount | Amount of points bet.                  |
+| Param  | Description            |
+| ------ | ---------------------- |
+| Option | The selected option.   |
+| Amount | Amount of points bet.  |
 #
 ### Options
 Shows the betting options with info like total points bet and return ratio.
