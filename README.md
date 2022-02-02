@@ -12,7 +12,7 @@ Opens a prediction for betting.
 ### Close
 Ends the betting period.
 #
-### Result <Option\>
+### Payout <Option\>
 Pays out the correct predictors and shows the leaderboard.
 | Param  | Description         |
 | ------ | ------------------- |

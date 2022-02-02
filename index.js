@@ -43,6 +43,10 @@ client.on('interactionCreate', interaction => {
 
     let command;
     switch (interaction.customId) {
+    case customIds.PAYOUT:
+        command = client.commands.get('payout');
+        command.payout(interaction);
+        break;
     case customIds.RESET:
         command = client.commands.get('reset');
         command.reset(interaction);
@@ -62,8 +66,8 @@ async function setupPerms() {
 
     const fullPermissions = [
         {
-            // open
-            id: '930520235679834112',
+            // cancel
+            id: '937433766325002320',
             permissions: adminRole,
         },
         {
@@ -72,13 +76,18 @@ async function setupPerms() {
             permissions: adminRole,
         },
         {
+            // open
+            id: '930520235679834112',
+            permissions: adminRole,
+        },
+        {
             // reset
             id: '936095522543005748',
             permissions: adminRole,
         },
         {
-            // cancel
-            id: '937433766325002320',
+            // result
+            id: '938249609539620894',
             permissions: adminRole,
         },
     ];

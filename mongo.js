@@ -63,4 +63,20 @@ module.exports = {
             await client.close();
         }
     },
+
+    async updatePlayerPoints(id, points) {
+        const client = new MongoClient(url);
+        try {
+            await client.connect();
+            const response = await client.db('predictions').collection('points').updateOne({ _id: id }, { $set: { points } });
+            console.log(response);
+        }
+        catch (e) {
+            console.error(e);
+            throw Error('Something went wrong while checking the database.');
+        }
+        finally {
+            await client.close();
+        }
+    },
 };
