@@ -47,7 +47,7 @@ module.exports = {
 
             let newPoints = prevPoints - bet.amount;
             if (bet.selection === winner) {
-                const winnings = bet.amount * (winner === '1' ? option1Info.ratio : option2Info.ratio);
+                const winnings = Math.round(bet.amount * (winner === '1' ? option1Info.ratio : option2Info.ratio));
                 newPoints += winnings;
                 winnerTotal += winnings;
             }
