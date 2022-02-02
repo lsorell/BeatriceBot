@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { PredictionData } = require('../globals');
+const { MessageEmbed } = require('discord.js');
+const { PredictionData, embedColor } = require('../globals');
 const { getPlayerPoints } = require('../mongo');
 const { calculateBettingInfo, createBettingInfoEmbed } = require('./options');
 
@@ -9,7 +10,7 @@ module.exports = {
         .setDescription('Bets a point amount on the given option.')
         .addStringOption(option =>
             option.setName('option')
-                .setDescription('The option selection.')
+                .setDescription('The option to bet on.')
                 .setRequired(true)
                 .addChoice('Option #1', '1')
                 .addChoice('Option #2', '2'))
@@ -20,13 +21,13 @@ module.exports = {
 
     async execute(interaction) {
         if (!PredictionData.bettingIsOpen) {
-            return interaction.reply('Betting is currently closed. Please wait for betting to be opened.');
+            return await interaction.reply({ content: 'Betting is currently closed. Please wait for betting to be opened.', ephemeral: true });
         }
 
         // Check that the user has registered
         const points = await getPlayerPoints(interaction.user.id);
         if (!points) {
-            return interaction.reply({ content:'You were not found in the database. To join the game use the command /register', ephemeral: true });
+            return await interaction.reply({ content:'You were not found in the database. To join the game use the command **/register**', ephemeral: true });
         }
 
         // Check if the user already has a bet placed
@@ -41,21 +42,27 @@ module.exports = {
                     amount = total;
                 }
                 else {
-                    return interaction.reply({ content: 'You do not have enough funds to place this bet.', ephemeral: true });
+                    return await interaction.reply({ content: 'You do not have enough funds to place this bet.', ephemeral: true });
                 }
             }
             else {
-                return interaction.reply({ content: `You have already bet on ${PredictionData.bets[id].selection === '1' ? PredictionData.option1 : PredictionData.option2} and cannot change your selection.`, ephemeral: true });
+                return await interaction.reply({ content: `You have already bet on ${PredictionData.bets[id].selection === '1' ? PredictionData.option1 : PredictionData.option2} and cannot change your selection.`, ephemeral: true });
             }
         }
         else if (hasAvailableFunds(points, amount)) {
             PredictionData.bets[id] = { selection, amount };
         }
         else {
-            return interaction.reply({ content: 'You do not have enough funds to place this bet.', ephemeral: true });
+            return await interaction.reply({ content: 'You do not have enough funds to place this bet.', ephemeral: true });
         }
-        interaction.reply(`${interaction.user.username} has bid on ${selection === '1' ? PredictionData.option1 : PredictionData.option2} for a total of ${amount} points.`);
-        return interaction.channel.send({ embeds: [createBettingInfoEmbed(calculateBettingInfo())] });
+
+        const betEmbed = new MessageEmbed()
+            .setTitle(`${interaction.user.username} bet on ${selection === '1' ? PredictionData.option1 : PredictionData.option2}!`)
+            .setColor(embedColor)
+            .addField('Bet', amount.toString());
+
+        await interaction.reply({ embeds: [betEmbed] });
+        return await interaction.channel.send({ embeds: [createBettingInfoEmbed(calculateBettingInfo())] });
     },
 };
 

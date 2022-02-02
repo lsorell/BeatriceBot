@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { addStartingPoints, getPlayerPoints } = require('../mongo');
-const { PredictionData } = require('../globals');
+const { PredictionData, embedColor } = require('../globals');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -11,12 +12,16 @@ module.exports = {
         const id = interaction.user.id;
         const points = await getPlayerPoints(id);
         if (points) {
-            return interaction.reply({ content:'You have already registered and are in the game.', ephemeral: true });
+            return await interaction.reply({ content:'You have already registered and are in the game. Try using **/bank** to see your points!', ephemeral: true });
         }
 
         await addStartingPoints({ _id: id, name: interaction.user.username, points: PredictionData.startingPoints })
             .then(() => {
-                return interaction.reply(`${interaction.user.username} has been added to the game with ${PredictionData.startingPoints} starting points!`);
+                const registerEmbed = new MessageEmbed()
+                    .setTitle(`${interaction.user.username} has been added to the game!`)
+                    .setColor(embedColor)
+                    .addField('Points', PredictionData.startingPoints.toString());
+                return interaction.reply({ embeds: [registerEmbed] });
             })
             .catch((e) => {
                 return interaction.reply(e.message);

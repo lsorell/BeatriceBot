@@ -68,8 +68,7 @@ module.exports = {
         const client = new MongoClient(url);
         try {
             await client.connect();
-            const response = await client.db('predictions').collection('points').updateOne({ _id: id }, { $set: { points } });
-            console.log(response);
+            await client.db('predictions').collection('points').updateOne({ _id: id }, { $set: { points } });
         }
         catch (e) {
             console.error(e);

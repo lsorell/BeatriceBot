@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { PredictionData } = require('../globals');
+const { MessageEmbed } = require('discord.js');
+const { PredictionData, embedColor } = require('../globals');
 const { getPlayerPoints } = require('../mongo');
 
 module.exports = {
@@ -10,14 +11,24 @@ module.exports = {
     async execute(interaction) {
         const points = await getPlayerPoints(interaction.user.id);
         if (!points) {
-            return interaction.reply({ content:'You were not found in the database. To join the game use the command /register', ephemeral: true });
+            return await interaction.reply({ content:'You were not found in the database. To join the game use the command **/register**', ephemeral: true });
         }
+
+        const bankEmbed = new MessageEmbed()
+            .setTitle(`${interaction.user.username}'s Bank`)
+            .setColor(embedColor);
 
         const id = interaction.user.id;
         if (PredictionData.bets[id]) {
             const bet = PredictionData.bets[id].amount;
-            return interaction.reply(`You have ${points - bet} points in the bank and ${bet} points placed on a bet.`);
+            bankEmbed.addFields(
+                { name: 'Bank', value: (points - bet).toString(), inline: true },
+                { name: 'Bet', value: bet.toString(), inline: true },
+            );
         }
-        return interaction.reply(`You have ${points} points.`);
+        else {
+            bankEmbed.addField('Bank', points.toString());
+        }
+        return await interaction.reply({ embeds: [bankEmbed] });
     },
 };

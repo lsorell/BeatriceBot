@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { PredictionData } = require('../globals');
+const { MessageEmbed } = require('discord.js');
+const { PredictionData, embedColor } = require('../globals');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,10 +11,13 @@ module.exports = {
     async execute(interaction) {
         // console.log(interaction.commandId);
         if (!PredictionData.bettingIsOpen) {
-            return interaction.reply({ content: 'No bet is currently open. Start a bet with /open', ephemeral: true });
+            return await interaction.reply({ content: 'No bet is currently open. Start a bet with **/open**', ephemeral: true });
         }
 
         PredictionData.bettingIsOpen = false;
-        return interaction.reply('The betting period has now ended!');
+        const closeEmbed = new MessageEmbed()
+            .setTitle('The betting period has now ended!')
+            .setColor(embedColor);
+        return await interaction.reply({ embeds: [closeEmbed] });
     },
 };

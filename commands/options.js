@@ -14,7 +14,7 @@ module.exports = {
         .setDescription('Shows the betting options and info.'),
 
     async execute(interaction) {
-        return interaction.reply({ embeds: [this.createBettingInfoEmbed(this.calculateBettingInfo())] });
+        return await interaction.reply({ embeds: [this.createBettingInfoEmbed(this.calculateBettingInfo())] });
     },
 
     calculateBettingInfo() {

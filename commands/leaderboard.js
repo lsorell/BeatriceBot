@@ -11,9 +11,9 @@ module.exports = {
     async execute(interaction) {
         const leaderboard = await this.createLeaderboardEmbed();
         if (leaderboard) {
-            return interaction.reply({ embeds: [leaderboard] });
+            return await interaction.reply({ embeds: [leaderboard] });
         }
-        return interaction.reply({ content: 'No players are in the database.', ephemeral: true });
+        return await interaction.reply({ content: 'No players are in the database.', ephemeral: true });
     },
 
     async createLeaderboardEmbed() {

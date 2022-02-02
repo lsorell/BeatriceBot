@@ -30,7 +30,7 @@ module.exports = {
                     .setStyle('PRIMARY'),
             );
 
-        return interaction.reply({
+        return await interaction.reply({
             content: `Are you sure you want to payout the players that predicted *${winner === '1' ? PredictionData.option1 : PredictionData.option2}*? **This action cannot be undone.**`,
             ephemeral: true,
             components: [row],
@@ -42,7 +42,7 @@ module.exports = {
         let winnerTotal = 0;
         for (const [id, bet] of Object.entries(PredictionData.bets)) {
             const prevPoints = await getPlayerPoints(id).catch((e) => {
-                return interaction.reply(e.message + ' Please try paying out again.');
+                return interaction.reply({ content: e.message + ' Please try paying out again.', ephemeral: true });
             });
 
             let newPoints = prevPoints - bet.amount;
@@ -51,7 +51,7 @@ module.exports = {
                 newPoints += winnings;
                 winnerTotal += winnings;
             }
-            await updatePlayerPoints(id, newPoints);
+            await updatePlayerPoints(id, newPoints + PredictionData.roundEndBonus);
         }
 
         // Reset bets object
@@ -59,7 +59,8 @@ module.exports = {
 
         const winnerEmbed = new MessageEmbed()
             .setTitle(`The winnner is ${winner === '1' ? PredictionData.option1 : PredictionData.option2}!!!`)
-            .setDescription(`${winnerTotal} points were payed out to the believers.`)
+            .setDescription(`${winnerTotal} points were payed out to the believers! \n
+                Round end bonus of ${PredictionData.roundEndBonus} points was given out to everyone.`)
             .setColor(embedColor);
         await interaction.reply({ content: 'Payout delivered.', ephemeral: true });
         await interaction.channel.send({ embeds: [winnerEmbed] });

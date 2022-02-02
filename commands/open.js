@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { PredictionData } = require('../globals');
+const { MessageEmbed } = require('discord.js');
+const { PredictionData, embedColor } = require('../globals');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,7 +19,7 @@ module.exports = {
     async execute(interaction) {
         // console.log(interaction.commandId);
         if (PredictionData.bettingIsOpen) {
-            return interaction.reply('Bet is already open. Close the bet before opening a new one!');
+            return await interaction.reply({ content:'Bet is already open. Close the bet with **/close** before opening a new one!', ephemeral: true });
         }
 
         const opt1 = interaction.options.getString('option1');
@@ -27,8 +28,16 @@ module.exports = {
             PredictionData.option1 = opt1;
             PredictionData.option2 = opt2;
             PredictionData.bettingIsOpen = true;
-            return interaction.reply(`Betting is open! Option #1: ${opt1} -- Option #2: ${opt2}`);
+
+            const openEmbed = new MessageEmbed()
+                .setTitle('Betting is open!')
+                .setColor(embedColor)
+                .addFields(
+                    { name: 'Option #1', value: PredictionData.option1, inline: true },
+                    { name: 'Option #2', value: PredictionData.option2, inline: true },
+                );
+            return await interaction.reply({ embeds: [openEmbed] });
         }
-        return interaction.reply({ content: 'One of the options you entered is not valid. Try again!', ephemeral: true });
+        return await interaction.reply({ content: 'One of the options you entered is not valid. Try again!', ephemeral: true });
     },
 };

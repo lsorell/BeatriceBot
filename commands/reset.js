@@ -19,8 +19,8 @@ module.exports = {
                     .setStyle('DANGER'),
             );
 
-        return interaction.reply({
-            content: 'Are you sure you want to reset the game? **This action cannot be undone.**',
+        return await interaction.reply({
+            content: 'Are you sure you want to reset the game and delete all data in the database? **This action cannot be undone.**',
             ephemeral: true,
             components: [row],
         });
