@@ -67,27 +67,27 @@ async function setupPerms() {
     const fullPermissions = [
         {
             // cancel
-            id: '937433766325002320',
+            id: '938973913864626238',
             permissions: adminRole,
         },
         {
             // close
-            id: '935969576951365712',
+            id: '938973913864626239',
             permissions: adminRole,
         },
         {
             // open
-            id: '930520235679834112',
+            id: '938973913864626241',
             permissions: adminRole,
         },
         {
             // reset
-            id: '936095522543005748',
+            id: '938973913864626245',
             permissions: adminRole,
         },
         {
-            // result
-            id: '938249609539620894',
+            // payout
+            id: '938973913864626243',
             permissions: adminRole,
         },
     ];

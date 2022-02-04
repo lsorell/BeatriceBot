@@ -38,6 +38,10 @@ module.exports = {
     },
 
     async payout(interaction) {
+        if (Object.keys(PredictionData.bets).length === 0) {
+            return await interaction.reply({ content: 'No bets have been placed to pay out.', ephemeral: true });
+        }
+
         const { option1Info, option2Info } = calculateBettingInfo();
         let winnerTotal = 0;
         for (const [id, bet] of Object.entries(PredictionData.bets)) {
