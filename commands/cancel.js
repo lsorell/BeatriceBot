@@ -11,6 +11,7 @@ module.exports = {
     async execute(interaction) {
         // console.log(interaction.commandId);
         PredictionData.bets = {};
+        PredictionData.bettingIsOpen = false;
         const cancelEmbed = new MessageEmbed()
             .setTitle('The current bet has been canceled and points have been returned to players!')
             .setColor(embedColor);
