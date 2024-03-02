@@ -1,5 +1,5 @@
 # BeatriceBot
-BeatriceBot is a discord bot for the Return of the Middlesticks server.
+BeatriceBot is a discord bot used for community night prediction games in the Return of the Middlesticks server. 
 # Predictions
 ## Admin Commands
 ### Open <Option1\> <Option2\>
